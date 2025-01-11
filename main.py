@@ -135,6 +135,9 @@ class PinManager(QWidget):
 
     def auto_input_pin(self):
         """HAOPLAY 창 활성화 및 자바스크립트 입력"""
+        # 현재 클립보드 데이터 저장
+        original_clipboard = pyperclip.paste()
+
         try:
             if self.pin_list.count() < 1:
                 return
@@ -178,6 +181,11 @@ class PinManager(QWidget):
 
         except Exception as e:
             self.show_error_message(f"자동 입력에 실패했습니다: {e}")
+
+        finally:
+            # 클립보드 데이터 원래 값으로 복원
+            pyperclip.copy(original_clipboard)
+            print("✅ 클립보드 복원 완료.")
 
 
 def open_debug_window():
